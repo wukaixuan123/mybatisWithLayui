@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 如果需要访问这条sql语，需要通过其唯一标识访问到 唯一标识就是 namespace+id的组合 -->
+<mapper namespace="com.hdax.mapper.studentMapper">
+    <!-- mapper标签下有select、update、delete、insert，根据你要执行的sql语句选择正确的标签 -->
+    <select id="queryAllLimit" resultType="student" parameterType="hashMap">
+        select * from student
+        <if test="name!=null">
+            where username like '%${name}%'
+        </if>
+         limit #{page.startIndex},#{page.limit}
+    </select>
+    <select id="queryCount" resultType="int">
+        select count(*) from student
+    </select>
+    <delete id="delStudentWithId" parameterType="int">
+        delete from student where id = ${value}
+    </delete>
+</mapper>
