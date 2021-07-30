@@ -7,9 +7,11 @@
     <!-- mapper标签下有select、update、delete、insert，根据你要执行的sql语句选择正确的标签 -->
     <select id="queryAllLimit" resultType="student" parameterType="hashMap">
         select * from student
-        <if test="name!=null">
-            where username like '%${name}%'
-        </if>
+        <where>
+            <if test="name!=null">
+                where username like '%${name}%'
+            </if>
+        </where>
          limit #{page.startIndex},#{page.limit}
     </select>
     <select id="queryCount" resultType="int">
@@ -18,4 +20,10 @@
     <delete id="delStudentWithId" parameterType="int">
         delete from student where id = ${value}
     </delete>
+    <select id="queryWithId" parameterType="int" resultType="student">
+        select * from student where id = ${value}
+    </select>
+    <update id="updateStudent" parameterType="student">
+        update student set username=#{userName},sex=#{sex},sexBoolean = #{sexBoolean} where id = ${id}
+    </update>
 </mapper>

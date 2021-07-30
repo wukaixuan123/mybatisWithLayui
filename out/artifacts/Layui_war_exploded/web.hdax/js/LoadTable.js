@@ -50,18 +50,19 @@ layui.use(['table','jquery','form'], function () {
     //第一个实例
       var roder = table.render({
         elem: '#test'
-        ,  url: "/Layui/ServletGetUser"//数据接口
+        ,url: "/Layui/ServletGetUser"//数据接口
         , method: 'post'
         , page:true //开启分页
-         ,limits:[10,100]
+         ,limits:[10,100],
+          toolbar:'#toolbradDemo'
+          ,id:'studentForm'
         , cols:  [[ //表头  //列
             {type:'checkbox',fixed: 'left'},
             {field: 'id', title: 'ID', width:80, sort: true}  //field 字段,templet:'#titleTpl'
             ,{field: 'userName', title: '用户名', width:80}
-            ,{field: 'sex', title: '性别', width:80, sort: true}
+            ,{field: 'sex', title: '性别', width:80, sort: true,templet:"#tplDemo"}
             ,{toolbar:'#titleTpl',title: '操作'}
         ]],
-        toolbar:true,
         defaultToolbar: ['filter', 'print', 'exports'],
         request: {
             pageName: 'page' // 页码的参数名4
@@ -69,6 +70,12 @@ layui.use(['table','jquery','form'], function () {
             , limitName: 'limitNumber' //每页数据量的参数名，默认：limit
         },
     });
+      //监听头部事件
+    table.on('toolbar(table)',function (data) {
+       console.log(data)
+       var checkData =  table.checkStatus('studentForm');
+       console.log(checkData)
+    })
     //监听事件//监听行内自定义 的toolbar事件
    table.on('tool(table)',function (obj) {
         var event = obj.event;//获取点击按钮的event数据
@@ -78,7 +85,7 @@ layui.use(['table','jquery','form'], function () {
         var tr = obj.tr;//获取当前层的dom对象
         if(event=='bianji'){
             //编辑  获取当前行id
-
+            open(id);
         }else if(event=='del'){
             //删除操作
             layer.open({
@@ -115,7 +122,6 @@ layui.use(['table','jquery','form'], function () {
     //重新加载数据的函数参数
     function parameter (where) {
         return {
-            url:'/Layui/ServletGetUser',
             where: where
         }
     }
@@ -136,4 +142,36 @@ layui.use(['table','jquery','form'], function () {
     //     username: '123'
     //     ,title: 'xxx'
     // });
-});
+            //打开编辑框
+    var open = function (data) {
+                layer.open({
+                    type:2,
+                    area:['800','500'],
+                    title:'修改用户信息',
+                    content:"/Layui/web.hdax/model/addStudent.jsp",
+                    title:"修改用户"
+                    // success: function(layero, index){
+                    //     //发送请求获取该用户数据
+                    //     // $.ajax({
+                    //     //     type:"POST",
+                    //     //     url:"/Layui/ServletQueryWithId",
+                    //     //     data:{
+                    //     //         id:data
+                    //     //     },
+                    //     //     dataType:'JSON',
+                    //     //     success:function (data) {
+                    //     //         // var body = layer.getChildFrame('body', index);
+                    //     //         // var iframeWin = window['layui-layer-iframe'+index]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                    //     //         // console.log(body)
+                    //     //         // body.find("input[name='sss']").val();
+                    //     //         // iframeWin.loadFormData(data);
+                    //     //         ale();
+                    //     //     }
+                    //     // })
+                    // }
+                })
+            }
+    }
+    //增加或删除修改后 重载列表
+
+)

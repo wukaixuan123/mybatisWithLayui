@@ -52,4 +52,22 @@ public class studentDao {
         MybatisJdbcUntil.commitSession();
         return row;
     }
+    //根据Id查询学生
+    public Student queryWithId(int id){
+        Student student = null;
+        //获取Session
+        SqlSession session = MybatisJdbcUntil.getSqlSeeion();
+        studentMapper studentMapper = session.getMapper(studentMapper.class);
+       Student student1 = studentMapper.queryWithId(id);
+        return student1;
+    }
+    //根据Id修改学生信息
+    public int updateStudent(Student student){
+        int row =0;
+        //获取Session
+        SqlSession session = MybatisJdbcUntil.getSqlSeeion();
+       studentMapper studentMapper =  session.getMapper(studentMapper.class);
+      row = studentMapper.updateStudent(student);
+        return  row;
+    }
 }

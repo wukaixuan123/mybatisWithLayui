@@ -10,4 +10,6 @@ public interface studentMapper {
     List<Student> queryAllLimit(HashMap map);
     int queryCount();
     int delStudentWithId(int id);
+    Student  queryWithId(int id);
+    int updateStudent(Student student);
 }
